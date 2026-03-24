@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>我！犬神连！无所不能的男人！</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e5f5a 0%, #2c3e50 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .game-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.95);
+            border-radius: 30px;
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        h1 {
+            margin: 0;
+            color: #2c3e50;
+        }
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        button {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        button:hover {
+            background: #2ecc71;
+        }
+        button:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+        .round-info {
+            text-align: center;
+            font-size: 1.2rem;
+            margin: 10px 0;
+            font-weight: bold;
+            background: #f39c12;
+            padding: 8px;
+            border-radius: 30px;
+        }
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .player-card {
+            background: #ecf0f1;
+            border-radius: 20px;
+            padding: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        .player-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+            font-weight: bold;
+            flex-wrap: wrap;
+        }
+        .player-name {
+            font-size: 1.2rem;
+            background: #2c3e50;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 30px;
+        }
+        .player-score {
+            font-size: 1.2rem;
+            background: white;
+            padding: 4px 12px;
+            border-radius: 30px;
+            color: #e67e22;
+        }
+        .board {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .row {
+            background: white;
+            border-radius: 12px;
+            padding: 8px;
+            box-shadow: inset 0 0 3px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .row:hover {
+            background: #fef5e7;
+        }
+        .row-header {
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+            color: #2c3e50;
+        }
+        .cards {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            min-height: 70px;
+        }
+        .card {
+            background: #fdfef7;
+            border-radius: 10px;
+            width: 50px;
+            height: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .card:hover {
+            transform: scale(1.02);
+            background: #ffe0b3;
+        }
+        .card-number {
+            font-size: 22px;
+        }
+        .hand-area {
+            margin-top: 10px;
+            border-top: 1px solid #bdc3c7;
+            padding-top: 8px;
+        }
+        .hand-title {
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .hand-cards {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .hand-card {
+            background: white;
+            border-radius: 10px;
+            width: 50px;
+            height: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .hand-card:hover {
+            transform: scale(1.05);
+        }
+        .hand-card.selected {
+            background: #f1c40f;
+            box-shadow: 0 0 0 2px #e67e22;
+        }
+        .round-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+        .discard-area {
+            margin-top: 8px;
+            font-size: 0.7rem;
+            color: #7f8c8d;
+            border-top: 1px dashed #bdc3c7;
+            padding-top: 5px;
+        }
+        .discard-cards {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-top: 4px;
+        }
+        .discard-card {
+            background: #e0e0e0;
+            border-radius: 6px;
+            width: 35px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        .discard-card.hidden {
+            background: #b0b0b0;
+            color: #b0b0b0;
+        }
+        .message {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 10px;
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+        .place-status {
+            font-size: 12px;
+            margin-left: 8px;
+            color: #e67e22;
+        }
+        .action-button {
+            margin-left: 15px;
+            background: #e67e22;
+        }
+        .action-button:hover {
+            background: #f39c12;
+        }
+        @media (max-width: 800px) {
+            .card, .hand-card { width: 40px; height: 56px; font-size: 14px; }
+            .card-number { font-size: 18px; }
+            .discard-card { width: 28px; height: 40px; font-size: 10px; }
+            .players-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <div class="header">
+        <h1>🃏 ？♥ ？ 🃏</h1>
+        <div class="controls">
+            <button id="hostBtn">🏠 创建房间</button>
+            <input type="text" id="roomIdInput" placeholder="房间号" style="width:120px; padding:5px; border-radius:30px; border:1px solid #ccc;">
+            <button id="joinBtn">🔗 加入房间</button>
+            <button id="resetBtn">新的一局</button>
+        </div>
+    </div>
+    <div class="round-info" id="roundInfo">第 1 / 3 轮 - 请玩家从4张暗牌中选择3张放入计分板</div>
+    <div class="players-grid" id="playersGrid"></div>
+    <div class="message" id="messageArea">✅ 点击手牌选中(高亮)，再点击计分板行放置。点击计分板上的牌可取下(仅限本轮放置的)。放置完本轮所需张数后，「亮牌」按钮变为可用，亮牌后自动变成「下一轮」。</div>
+    <footer>牌型强度：高牌＜对子＜顺子＜三条＜同色＜同花顺。特殊牌型在最终结算时与基础分比较取高。</footer>
+</div>
+
+<script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+<script src="game-core.js"></script>
+<script src="game-state.js"></script>
+<script src="ui-render.js"></script>
+<script src="multiplayer.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
