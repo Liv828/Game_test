@@ -272,7 +272,7 @@ function hostProcessRemove(playerId, { rowIdx, cardIndex }) {
     syncRoundPlacedCount(p);
     return true;
 }
-s
+
 function hostProcessReveal(playerId) {
     const p = players[playerId];
     const needPick = getNeedPickThisRound();
