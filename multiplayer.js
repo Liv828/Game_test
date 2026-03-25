@@ -15,11 +15,7 @@ const MSG_TYPES = {
 
 function createRoom() {
     console.log('创建房间...');
-    peer = new Peer(undefined, {
-        host: 'peerjs-server.herokuapp.com',
-        port: 443,
-        secure: true
-    });
+    peer = new Peer();
     peer.on('open', (id) => {
         roomId = id;
         isHost = true;
@@ -45,11 +41,7 @@ function createRoom() {
 
 function joinRoom(roomId) {
     console.log('加入房间:', roomId);
-    peer = new Peer(undefined, {
-        host: 'peerjs-server.herokuapp.com',
-        port: 443,
-        secure: true
-    });
+    peer = new Peer();
     peer.on('open', () => {
         conn = peer.connect(roomId);
         conn.on('open', () => {
