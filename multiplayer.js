@@ -16,7 +16,7 @@ const MSG_TYPES = {
 function createRoom() {
     console.log('创建房间...');
     peer = new Peer(undefined, {
-        host: 'peerjs-server.webrtc.cn',
+        host: 'peerjs-server.herokuapp.com',
         port: 443,
         secure: true
     });
