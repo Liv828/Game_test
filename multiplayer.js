@@ -15,7 +15,11 @@ const MSG_TYPES = {
 
 function createRoom() {
     console.log('创建房间...');
-    peer = new Peer();
+    peer = new Peer(undefined, {
+        host: 'peerjs-server.webrtc.cn',
+        port: 443,
+        secure: true
+    });
     peer.on('open', (id) => {
         roomId = id;
         isHost = true;
