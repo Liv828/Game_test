@@ -378,8 +378,6 @@ function reveal() {
     }
     if (isMultiplayer) {
         sendAction('reveal', {});
-        roundRevealed = true;
-        render();
     } else {
         revealSingle();
     }
