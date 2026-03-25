@@ -46,10 +46,10 @@ function createRoom() {
 function joinRoom(roomId) {
     console.log('加入房间:', roomId);
     peer = new Peer(undefined, {
-        host: 'peerjs-server.webrtc.cn',
+        host: 'peerjs-server.herokuapp.com',
         port: 443,
         secure: true
-        });
+    });
     peer.on('open', () => {
         conn = peer.connect(roomId);
         conn.on('open', () => {
