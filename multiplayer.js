@@ -41,7 +41,11 @@ function createRoom() {
 
 function joinRoom(roomId) {
     console.log('加入房间:', roomId);
-    peer = new Peer();
+    peer = new Peer(undefined, {
+        host: 'peerjs-server.webrtc.cn',
+        port: 443,
+        secure: true
+        });
     peer.on('open', () => {
         conn = peer.connect(roomId);
         conn.on('open', () => {
